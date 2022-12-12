@@ -22,6 +22,10 @@ public class StudentService {
         return studentRepository.findById(id).orElseThrow();
     }
 
+    public Collection<Student> getStudentsInAgeBetween(int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
     public Student editStudent(Student student) {
         return studentRepository.save(student);
     }
