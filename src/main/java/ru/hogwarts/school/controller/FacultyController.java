@@ -45,13 +45,12 @@ public class FacultyController {
     }
 
     @PutMapping
-    public Faculty editFaculty(@RequestBody Faculty faculty) {
-        return facultyService.editFaculty(faculty);
+    public Faculty editFaculty(@RequestParam Long id, @RequestBody Faculty faculty) {
+        return facultyService.editFaculty(id, faculty);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteFaculty(@PathVariable Long id) {
-        facultyService.deleteFaculty(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
+        return ResponseEntity.ok(facultyService.deleteFaculty(id));
     }
 }

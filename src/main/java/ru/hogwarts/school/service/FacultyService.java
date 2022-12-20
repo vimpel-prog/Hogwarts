@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.ObjectNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
@@ -22,12 +23,17 @@ public class FacultyService {
         return facultyRepository.findById(id).orElseThrow();
     }
 
-    public Faculty editFaculty(Faculty faculty) {
-        return facultyRepository.save(faculty);
+    public Faculty editFaculty(Long id, Faculty faculty) {
+        Faculty dbFaculty = facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        dbFaculty.setColor(faculty.getColor());
+        dbFaculty.setName(faculty.getName());
+        return facultyRepository.save(dbFaculty);
     }
 
-    public void deleteFaculty(long id) {
-        facultyRepository.deleteById(id);
+    public Faculty deleteFaculty(long id) {
+        Faculty dbFaculty = facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        facultyRepository.delete(dbFaculty);
+        return dbFaculty;
     }
 
     public Collection<Faculty> getAll() {
