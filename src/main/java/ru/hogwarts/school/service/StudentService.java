@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.ObjectNotFoundException;
 import ru.hogwarts.school.model.Student;
@@ -16,6 +18,7 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    Logger logger= LoggerFactory.getLogger(StudentService.class);
     public Student createStudent(Student student) {
         return studentRepository.save(student);
     }
