@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Profile("Production")
 public class PortServiceProduction implements PortService{
     @Value("${server.port}")
-    String port;
+    private String port;
     @Override
     public String getPort() {
         return port;

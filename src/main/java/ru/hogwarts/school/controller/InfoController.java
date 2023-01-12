@@ -6,7 +6,7 @@ import ru.hogwarts.school.service.PortService;
 
 @RestController
 public class InfoController {
-    final PortService portService;
+    private final PortService portService;
 
     public InfoController(PortService portService) {
         this.portService = portService;

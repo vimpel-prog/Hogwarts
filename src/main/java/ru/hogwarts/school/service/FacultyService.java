@@ -17,7 +17,7 @@ public class FacultyService {
 
         this.facultyRepository = facultyRepository;
     }
-    Logger logger= LoggerFactory.getLogger(FacultyService.class);
+    private static final Logger logger= LoggerFactory.getLogger(FacultyService.class);
     public Faculty createFaculty(Faculty faculty) {
         logger.info("Was invoked method for create faculty");
         return facultyRepository.save(faculty);
@@ -49,14 +49,17 @@ public class FacultyService {
     }
 
     public Collection<Faculty> getFacultiesInColor(String color) {
+        logger.info("Was invoked method getFacultiesInColor");
         return facultyRepository.findAllByColor(color);
     }
 
     public Faculty getFacultyByColor(String color) {
+        logger.info("Was invoked method getFacultyByColor");
         return facultyRepository.findByColorIgnoreCase(color);
     }
 
     public Faculty getFacultyByName(String name) {
+        logger.info("Was invoked method getFacultyByName");
         return facultyRepository.findByNameIgnoreCase(name);
     }
 }

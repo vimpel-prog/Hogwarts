@@ -15,6 +15,18 @@ public class Avatar {
     @OneToOne
     Student student;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
