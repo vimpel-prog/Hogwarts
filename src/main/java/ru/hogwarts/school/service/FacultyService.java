@@ -1,46 +1,65 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.ObjectNotFoundException;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
-    private final Map<Long, Faculty> faculties = new HashMap<>();
-    private long lastId;
+    private final FacultyRepository facultyRepository;
 
+    public FacultyService(FacultyRepository facultyRepository) {
+
+        this.facultyRepository = facultyRepository;
+    }
+    private static final Logger logger= LoggerFactory.getLogger(FacultyService.class);
     public Faculty createFaculty(Faculty faculty) {
-        faculty.setId(++lastId);
-        faculties.put(lastId, faculty);
-        return faculty;
+        logger.info("Was invoked method for create faculty");
+        return facultyRepository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
-        return faculties.get(id);
+        logger.debug("Was invoked method for find faculty");
+        return facultyRepository.findById(id).orElseThrow();
     }
 
-    public Faculty editFaculty(Faculty faculty) {
-        faculties.put(faculty.getId(), faculty);
-        return faculty;
+    public Faculty editFaculty(Long id, Faculty faculty) {
+        logger.warn("Was invoked method for edit faculty");
+        Faculty dbFaculty = facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        dbFaculty.setColor(faculty.getColor());
+        dbFaculty.setName(faculty.getName());
+        return facultyRepository.save(dbFaculty);
     }
 
     public Faculty deleteFaculty(long id) {
-        return faculties.remove(id);
+        logger.trace("Was invoked method for delete faculty");
+        Faculty dbFaculty = facultyRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        facultyRepository.delete(dbFaculty);
+        return dbFaculty;
     }
 
     public Collection<Faculty> getAll() {
-        return Collections.unmodifiableCollection(faculties.values());
+        logger.info("Was invoked method for getting all faculties");
+        return facultyRepository.findAll();
     }
 
     public Collection<Faculty> getFacultiesInColor(String color) {
-        return faculties.values().stream()
-                .filter(s->s.getColor().equals(color))
-                .collect(Collectors.toList());
+        logger.info("Was invoked method getFacultiesInColor");
+        return facultyRepository.findAllByColor(color);
+    }
+
+    public Faculty getFacultyByColor(String color) {
+        logger.info("Was invoked method getFacultyByColor");
+        return facultyRepository.findByColorIgnoreCase(color);
+    }
+
+    public Faculty getFacultyByName(String name) {
+        logger.info("Was invoked method getFacultyByName");
+        return facultyRepository.findByNameIgnoreCase(name);
     }
 }
