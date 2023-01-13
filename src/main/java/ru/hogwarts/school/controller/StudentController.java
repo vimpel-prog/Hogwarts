@@ -86,4 +86,13 @@ public class StudentController {
                 .toList());
     }
 
+    @GetMapping("/averageAge")
+    public Double getAverageAgeByStream() {
+        return studentService.getAll().stream()
+                .map(i -> i.getAge())
+                .mapToInt(Integer::intValue)
+                .average()
+                .getAsDouble();
+    }
+
 }
