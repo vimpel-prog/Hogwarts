@@ -42,21 +42,22 @@ public class StudentController {
     }
 
     @GetMapping("/faculty/{id}")
-    public Faculty getStudentFaculty(@PathVariable Long id){
+    public Faculty getStudentFaculty(@PathVariable Long id) {
         return studentService.findStudent(id).getFaculty();
     }
+
     @GetMapping("/count")
-    public Integer getAllCount(){
+    public Integer getAllCount() {
         return studentService.getAllCount();
     }
 
     @GetMapping("/age/average")
-    public Integer getAverageAge(){
+    public Integer getAverageAge() {
         return studentService.getAverageAge();
     }
 
     @GetMapping("/lastFive")
-    public List<Student> getLastFive(){
+    public List<Student> getLastFive() {
         return studentService.getLastFive();
     }
 
@@ -66,13 +67,23 @@ public class StudentController {
     }
 
     @PutMapping
-    public Student editStudent(@RequestParam Long id,@RequestBody Student student) {
+    public Student editStudent(@RequestParam Long id, @RequestBody Student student) {
         return studentService.editStudent(id, student);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteStudent(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.deleteStudent(id));
+    }
+
+    @GetMapping("/namesStartWithA")
+    public ResponseEntity<Collection<String>> findStudentsNameStartWithA() {
+        return ResponseEntity.ok(studentService.getAll().stream()
+                .map(i -> i.getName())
+                .filter(i -> i.startsWith("A"))
+                .sorted()
+                .map(String::toUpperCase)
+                .toList());
     }
 
 }
