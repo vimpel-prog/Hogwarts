@@ -95,4 +95,13 @@ public class StudentController {
                 .getAsDouble();
     }
 
+    @GetMapping("/firstSixNames")
+    public void printFirstSixNames() {
+        studentService.printFirstSixNames();
+    }
+    @GetMapping("/firstSixNamesSync")
+    public void printFirstSixNamesSynchro() {
+        studentService.printFirstSixNamesSynchro();
+    }
+
 }
