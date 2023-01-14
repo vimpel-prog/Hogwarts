@@ -53,7 +53,7 @@ public class StudentService {
         return dbStudent;
     }
 
-    public Collection<Student> getAll() {
+    public List<Student> getAll() {
         logger.info("Was invoked method getAll");
         return studentRepository.findAll();
     }
@@ -77,4 +77,34 @@ public class StudentService {
         logger.info("Was invoked method getLastFive");
         return studentRepository.getLastFive();
     }
+
+    public void printFirstSixNames() {
+        List<Student> list = getAll();
+        System.out.println(list.get(0).getName());
+        System.out.println(list.get(1).getName());
+        new Thread(()-> {
+            System.out.println(list.get(2).getName());
+            System.out.println(list.get(3).getName());
+        }).start();
+        new Thread(()->{
+            System.out.println(list.get(4).getName());
+            System.out.println(list.get(5).getName());
+        }).start();
+    }
+
+    public synchronized void printFirstSixNamesSynchro() {
+        List<Student> list = getAll();
+        System.out.println(list.get(0).getName());
+        System.out.println(list.get(1).getName());
+        new Thread(()-> {
+                System.out.println(list.get(2).getName());
+                System.out.println(list.get(3).getName());
+        }).start();
+        new Thread(()->{
+                System.out.println(list.get(4).getName());
+                System.out.println(list.get(5).getName());
+        }).start();
+    }
 }
+
+
